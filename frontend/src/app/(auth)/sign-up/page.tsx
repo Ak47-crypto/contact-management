@@ -65,7 +65,7 @@ const { toast } = useToast()
     try {
       
       
-      const response = await fetch('http://localhost:3001/api/createUser',{
+      const response = await fetch('https://contact-management-gold-nine.vercel.app/api/createUser',{
         method:"POST",
         headers:{
             "CONTENT-TYPE":"application/json"

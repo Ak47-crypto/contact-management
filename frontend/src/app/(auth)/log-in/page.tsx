@@ -55,7 +55,7 @@ const LogIn = () => {
   const onSubmit = async (data:z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     try {
-        const response = await fetch('http://localhost:3001/api/login',{
+        const response = await fetch('https://contact-management-gold-nine.vercel.app/api/login',{
             method:"POST",
             headers:{
                 "CONTENT-TYPE":"application/json"

@@ -61,7 +61,7 @@ const ProductView = () => {
 
     const handleFetchOne = async()=>{
       try {
-        const response = await fetch('http://localhost:3001/api/fetchOne',{
+        const response = await fetch('https://contact-management-gold-nine.vercel.app/api/fetchOne',{
             method:"POST",
             headers:{
                 "CONTENT-TYPE":"application/json"

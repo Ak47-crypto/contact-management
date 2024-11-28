@@ -35,7 +35,7 @@ interface IContact {
   
 }
 const Dashboard = () => {
-  const [host,setHost]=useState<string>("http://localhost:3001")
+  const [host,setHost]=useState<string>("https://contact-management-gold-nine.vercel.app")
   const [contacts, setContacts] = useState<IContact[]>([
     {
       _id: "temp",
