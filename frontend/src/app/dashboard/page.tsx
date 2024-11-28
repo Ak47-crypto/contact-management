@@ -46,7 +46,7 @@ const Dashboard = () => {
     },
   ]);
   const router = useRouter();
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [token, setToken] = useState<string | null>("");
 
   const [isSearchTermCleared, setIsSearchTermCleared] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");

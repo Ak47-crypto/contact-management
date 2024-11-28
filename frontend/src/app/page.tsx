@@ -11,12 +11,22 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 const Home = () => {
+  const [isLogged,setIsLogged]=useState<boolean>(false)
   const carImages = [
     "/user1.png",
     "/user2.png",  
     "/user.svg",
   ];
+
+  useEffect(()=>{
+    if(localStorage.getItem('token')){
+      setIsLogged(true)
+    }else{
+      setIsLogged(false)
+    }
+  },[])
 
   return (
     <div className="min-h-screen">
@@ -33,7 +43,7 @@ const Home = () => {
               Track count, view, and pertionalize your contact operations.
             </p>
             <div className="flex gap-4">
-              <Link href={localStorage.getItem('token')?"/dashboard":"/sign-up"}>
+              <Link href={isLogged?"/dashboard":"/sign-up"}>
               <Button size="lg">Get Started</Button>
               </Link>
               <Link href={"#feature"}>
