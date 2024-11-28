@@ -72,7 +72,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchContact = async () => {
       setToken(localStorage.getItem("token"));
 
       try {
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
           toast({
             title: "Message",
-            description: "Product Fetched",
+            description: "Contact Fetched",
           });
           //   window.location.reload();
         } else if (data2.message === "jwt expired") {
@@ -112,7 +112,7 @@ const Dashboard = () => {
       }
     };
     const tokenLocalStorage = localStorage.getItem("token");
-    if (tokenLocalStorage) fetchProduct();
+    if (tokenLocalStorage) fetchContact();
     else router.replace("/");
   }, [isSearchTermCleared]);
 
@@ -127,7 +127,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleAddProduct = async () => {
+  const handleAddContact = async () => {
     
     
     try {
@@ -179,7 +179,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleEditProduct = async () => {
+  const handleEditContact = async () => {
     try {
       setIsEditing(true);
       const response = await fetch(
@@ -203,8 +203,8 @@ const Dashboard = () => {
       if (data2.statusCode === 200) {
         setContacts((prev) => {
           if (!prev) return [];
-          return prev.map((product) =>
-            product._id === selectedContact?._id ? selectedContact : product
+          return prev.map((contact) =>
+            contact._id === selectedContact?._id ? selectedContact : contact
           );
         });
 
@@ -233,7 +233,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleDeleteProduct = async (id: string) => {
+  const handleDeleteContact = async (id: string) => {
     try {
       setIsDeleting(true);
       const response = await fetch(
@@ -255,7 +255,7 @@ const Dashboard = () => {
       );
       const data2 = await response.json();
       if (data2.statusCode === 200) {
-        setContacts((prev) => prev.filter((product) => product._id !== id));
+        setContacts((prev) => prev.filter((contact) => contact._id !== id));
 
         toast({
           title: "Message",
@@ -275,12 +275,12 @@ const Dashboard = () => {
     }
   };
   const handleSearch = () => {
-    const filteredProducts = contacts.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredContact = contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setContacts(filteredProducts);
+    setContacts(filteredContact);
 
-    console.log(filteredProducts, searchTerm);
+    console.log(filteredContact, searchTerm);
   };
   const handleSearchClear = () => {};
 
@@ -309,6 +309,7 @@ const Dashboard = () => {
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
+                    placeholder="Enter your name"
                     value={newContact.name}
                     onChange={(e) =>
                       setNewContact((prev) => ({
@@ -320,9 +321,10 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone number</Label>
-                  <Textarea
+                  <Input
                     id="phone"
                     value={newContact.phone}
+                    placeholder="Enter you phone number, max 10 digits"
                     onChange={(e) =>
                       setNewContact((prev) => ({
                         ...prev,
@@ -332,10 +334,11 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Tag</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
+                    placeholder="Enter you email"
                     value={newContact.email}
                     onChange={(e) =>
                       setNewContact((prev) => ({
@@ -349,11 +352,11 @@ const Dashboard = () => {
               </div>
               <DialogFooter>
                 {isUploading ? (
-                  <Button onClick={handleAddProduct} disabled>
+                  <Button onClick={handleAddContact} disabled>
                     <Loader2 className=" animate-spin" /> Adding
                   </Button>
                 ) : (
-                  <Button onClick={handleAddProduct}>Add Contact</Button>
+                  <Button onClick={handleAddContact}>Add Contact</Button>
                 )}
               </DialogFooter>
             </DialogContent>
@@ -390,20 +393,20 @@ const Dashboard = () => {
           </Button>
         </div>
 
-        {/* Products Grid */}
+        {/* Contact Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {}
-          {contacts?.map((product) => (
-            <Card key={product._id}>
+          {contacts?.map((contact) => (
+            <Card key={contact._id}>
               <div
                 className="relative h-48 w-full hover:cursor-pointer"
                 onClick={() =>
-                  router.push(`/contactView?contactId=${product._id}`)
+                  router.push(`/contactView?contactId=${contact._id}`)
                 }
               >
                 <Image
                   src={"/user.svg"}
-                  alt={product.name}
+                  alt={contact.name}
                   fill
                   className="object-cover rounded-t-lg"
                 />
@@ -411,9 +414,9 @@ const Dashboard = () => {
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle>{product.name}</CardTitle>
+                    <CardTitle>{contact.name}</CardTitle>
                     <CardDescription>
-                      {product.email}
+                      {contact.email}
                     </CardDescription>
                   </div>
                   <div className="flex gap-2">
@@ -421,7 +424,7 @@ const Dashboard = () => {
                       variant="ghost"
                       size="icon"
                       onClick={() => {
-                        setSelectedContact(product);
+                        setSelectedContact(contact);
                         setIsEditDialogOpen(true);
                       }}
                     >
@@ -431,7 +434,7 @@ const Dashboard = () => {
                       variant="ghost"
                       size="icon"
                       onClick={() =>
-                        handleDeleteProduct(product._id ? product._id : "")
+                        handleDeleteContact(contact._id ? contact._id : "")
                       }
                       disabled={isDeleting}
                     >
@@ -441,7 +444,7 @@ const Dashboard = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">{product.phone}</p>
+                <p className="text-sm text-gray-600">{contact.phone}</p>
               </CardContent>
             </Card>
           ))}
@@ -451,9 +454,9 @@ const Dashboard = () => {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Edit Product</DialogTitle>
+              <DialogTitle>Edit Contact</DialogTitle>
               <DialogDescription>
-                Update the details of your product
+                Update the details of your contact
               </DialogDescription>
             </DialogHeader>
             {selectedContact && (
@@ -501,11 +504,11 @@ const Dashboard = () => {
             )}
             <DialogFooter>
               {isEditing ? (
-                <Button onClick={handleAddProduct} disabled>
+                <Button onClick={handleAddContact} disabled>
                   <Loader2 className=" animate-spin" /> Saving
                 </Button>
               ) : (
-                <Button onClick={handleEditProduct}>Save Changes</Button>
+                <Button onClick={handleEditContact}>Save Changes</Button>
               )}
             </DialogFooter>
           </DialogContent>

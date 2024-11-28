@@ -180,7 +180,16 @@ const { toast } = useToast()
               </Button>
             </form>
           </Form>
+          
         </CardContent>
+        <CardFooter>
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link href="/log-in" className="font-semibold text-primary hover:underline">
+              Log in
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
